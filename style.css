@@ -6,6 +6,9 @@
 
 .li {
    list-style-type: none;
+   border: 2px solid black;
+   padding: 10px;
+   text-align: center;
 }
 
 .modal-wrapper {
@@ -50,4 +53,9 @@
   margin-top: 10px;
   display: flex;
   justify-content: center;
+}
+
+.editButton,
+.deleteButton {
+  cursor: pointer;
 }
