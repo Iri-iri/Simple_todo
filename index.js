@@ -12,10 +12,18 @@ const form = document.querySelector("#form");
 
 let arr = [];
 
+function displayDate() {
+  const myDate = new Date();
+  dateValue = `Date:${myDate.getDate()}.0${myDate.getMonth() + 1}.${myDate.getFullYear()}
+  Time:${myDate.getHours()}:${myDate.getMinutes()}:${myDate.getSeconds()}`;
+  return dateValue;
+}
+
 function ArrPush() {
   let obj = {
     titleDisplay: title.value,
     descriptionDisplay: description.value,
+    date: dateValue,
   };
   arr.push(obj);
 }
@@ -29,6 +37,7 @@ function displayMessage() {
         <li class = "li">
         <h3 class = "newTitle">${item.titleDisplay}</h3>
         <p class = "newDescription">${item.descriptionDisplay}</p>
+        <p>${item.date}</p>
         <button class = "editButton"> Edit </button>
         <button class = "deleteButton"> Delete </button>
         </li>
@@ -36,6 +45,8 @@ function displayMessage() {
     display.innerHTML = displayMessage;
   });
 };
+
+
 
 
 function openModal() {
@@ -50,24 +61,33 @@ closeBtn.addEventListener("click", function () {
 
 btn.addEventListener("click", (event) => {
   event.preventDefault();
+  displayDate();
   ArrPush();
   displayMessage();
-});
 
+  const arrOfLi = document.querySelectorAll(".li");
+  arrOfLi.forEach((item) => {
+    item.addEventListener("mouseenter", () => {
+      item.style.boxShadow = "0 0 3px 5px purple";
+    });
+    item.addEventListener("mouseleave", () => {
+      item.style.boxShadow = "none";
+    });
+  })
+
+});
 
 function del() {
   const newLi = event.target.closest(".li");
   const newTitle = newLi.querySelector(".newTitle").textContent;
   const newDescription = newLi.querySelector(".newDescription").textContent;
 
-  arr.forEach(function (item) {
+  arr.forEach(function (item, index) {
     if (newTitle === item.titleDisplay && newDescription === item.descriptionDisplay) {
-      let index = arr.indexOf(item);
       arr.splice(index, 1);
     }
+    displayMessage();
   });
-
-  displayMessage();
 };
 
 
@@ -78,25 +98,26 @@ function edit() {
 
 
   openModal();
-   inputTitle.value = `${newTitle}`;
-   inputDescription.value = `${newDescription}`;
+  inputTitle.value = `${newTitle}`;
+  inputDescription.value = `${newDescription}`;
 
-  
+
   okBtn.addEventListener("click", () => {
-  
-    arr.forEach(function (item) {
+
+    arr.forEach(function (item, index) {
       if (newTitle === item.titleDisplay && newDescription === item.descriptionDisplay) {
-        let index = arr.indexOf(item);
+        displayDate();
         arr.splice(index, 1, {
-          title: inputTitle.value,
-          description: inputDescription.value,
+          titleDisplay: inputTitle.value,
+          descriptionDisplay: inputDescription.value,
+          date: dateValue,
         });
         modalWrapper.style.display = "none";
-        displayMessage();
       }
-      
+      displayMessage();
+
     });
-  
+
   });
 }
 
@@ -105,23 +126,10 @@ container.addEventListener("click", (event) => {
 
   if (event.target.closest(".deleteButton")) {
     del();
-  } 
+  }
 
   if (event.target.closest(".editButton")) {
     event.preventDefault()
     edit();
   }
 });
-
-
-// displayMessage();
-// const arrOfLi = document.querySelectorAll(".newTitle");
-// arrOfLi.forEach((item) => {
-//   item.addEventListener("mouseenter", () => {
-//     item.style.color = "red";
-//   });
-//   item.addEventListener("mouseleave", () => {
-//     item.style.color = "none";
-//   });
-// })
-
