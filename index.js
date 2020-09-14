@@ -77,7 +77,7 @@ btn.addEventListener("click", (event) => {
 
 });
 
-function del() {
+function del(event) {
   const newLi = event.target.closest(".li");
   const newTitle = newLi.querySelector(".newTitle").textContent;
   const newDescription = newLi.querySelector(".newDescription").textContent;
@@ -91,7 +91,7 @@ function del() {
 };
 
 
-function edit() {
+function edit(event) {
   const newLi = event.target.closest(".li");
   const newTitle = newLi.querySelector(".newTitle").textContent;
   const newDescription = newLi.querySelector(".newDescription").textContent;
@@ -125,11 +125,11 @@ function edit() {
 container.addEventListener("click", (event) => {
 
   if (event.target.closest(".deleteButton")) {
-    del();
+    del(event);
   }
 
   if (event.target.closest(".editButton")) {
     event.preventDefault()
-    edit();
+    edit(event);
   }
 });
